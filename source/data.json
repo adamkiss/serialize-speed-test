@@ -1,1 +1,17 @@
-data.json
+{
+  "name": "Adam",
+  "surname": "NotAdam",
+  "email": "adam@example.com",
+  "url": "http://www.example.com",
+  "int": 137,
+  "int2": 142,
+  "shortarr": [2,6,7],
+  "longarr": [{
+    "item": "with-string"
+  },{
+    "item": ["with", "array"]
+  },{
+    "item": 3
+  }
+  ]
+}
