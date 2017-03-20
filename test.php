@@ -43,9 +43,10 @@
     case 'json':
       for ($i=0; $i < $times; $i++) {
           $file = readdatafile(JSON, $i);
-          $data = json_decode($data);
+          $data = json_decode($file);
       }
       var_dump($data);
+      memory_used();
       break;
     case 'prepare':
       rrmdir('./source-loops/');
