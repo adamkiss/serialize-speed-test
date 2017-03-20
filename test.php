@@ -50,7 +50,6 @@
   $data = [];
   switch ($function) {
     case 'pw-json':
-      // require './vendor/processwire/processwire/wire/core/Functions.php';
       for ($i=0; $i < $times; $i++) {
           $file = readdatafile(JSON, $i);
           $data[$i] = wireDecodeJSON($file);
