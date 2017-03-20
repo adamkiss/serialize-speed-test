@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mustangostang/spyc": "^0.6.2",
+        "radioactivehamster/yaml": "^0.2.0"
+    }
+}
