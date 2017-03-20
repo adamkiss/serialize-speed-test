@@ -57,6 +57,8 @@
           $file = readdatafile(YAML, $i);
           $data[$i] = Symfony\Component\Yaml\Yaml::parse($file);
       }
+      echo 'count: '.count($data).ENT.'test item: '.$data[0]['longarr'][2]['item'].ENT;
+      memory_used();
       break;
     case 'radham':
       for ($i=0; $i < $times; $i++) {
@@ -64,6 +66,7 @@
           $data[$i] = RadHam\Yaml::parse($file);
       }
       echo 'count: '.count($data).ENT.'test item: '.$data[0]['longarr'][2]['item'].ENT;
+      memory_used();
       break;
     case 'spyc':
       for ($i=0; $i < $times; $i++) {
@@ -71,6 +74,7 @@
           $data[$i] = Spyc::YAMLLoadString($file);
       }
       echo 'count: '.count($data).ENT.'test item: '.$data[0]['longarr'][2]['item'].ENT;
+      memory_used();
       break;
     case 'pw-json':
       for ($i=0; $i < $times; $i++) {
