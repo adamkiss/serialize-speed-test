@@ -2,19 +2,62 @@
 
 <?php
   $function = $argv[1];
-  $times = count($argv) > 2 ? $argv[2] : null;
+  $times = count($argv) > 2 ? (int) $argv[2] : null;
+
+  const JSON = 'json';
+  const YAML = 'yaml';
+  const ENT  = "\n";
+
+  // source: http://php.net/manual/en/function.memory-get-usage.php#96280
+  function convert($size)
+  {
+    $unit=array('b','kb','mb','gb','tb','pb');
+    return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+  }
+  function memory_used($ru = true){
+    echo ENT.'Memory used: '.convert(memory_get_usage($ru)).ENT;
+  }
+
+  // source: http://www.php.net/manual/en/function.rmdir.php#98622
+ function rrmdir($dir) {
+   if (is_dir($dir)) {
+     $objects = scandir($dir);
+     foreach ($objects as $object) {
+       if ($object != "." && $object != "..") {
+         if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
+       }
+     }
+     reset($objects);
+     rmdir($dir);
+   }
+ }
+
+  function datafile($fmt, $i){
+    return "./source-loops/data-{$i}.{$fmt}";
+  }
+  function readdatafile($fmt, $i){
+    return file_get_contents(datafile($fmt, $i));
+  }
 
   switch ($function) {
+    case 'json':
+      for ($i=0; $i < $times; $i++) {
+          $file = readdatafile(JSON, $i);
+          $data = json_decode($data);
+      }
+      var_dump($data);
+      break;
     case 'prepare':
-      rmdir('./source-loops/');
+      rrmdir('./source-loops/');
       mkdir('./source-loops/');
-      $json_source = readfile('./source/data.json');
-      $yaml_source = readfile('./source/data.yaml');
+      $json_source = file_get_contents('./source/data.json');
+      $yaml_source = file_get_contents('./source/data.yaml');
       for ($i=0; $i < 5000; $i++) {
         file_put_contents("./source-loops/data-{$i}.json", $json_source);
         file_put_contents("./source-loops/data-{$i}.yaml", $json_source);
       }
-      echo "Prepared 5000 JSON and Yaml files.";
+      echo "Prepared 5000 JSON and Yaml files.".ENT;
+      memory_used();
       break;
     default:
       echo <<<HELP
