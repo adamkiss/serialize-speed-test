@@ -17,7 +17,7 @@
     return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
   }
   function memory_used($ru = true){
-    echo ENT.'Memory used: '.convert(memory_get_usage($ru)).ENT;
+    echo 'Memory used: '.convert(memory_get_usage($ru)).ENT;
   }
 
   // source: http://www.php.net/manual/en/function.rmdir.php#98622
@@ -48,7 +48,30 @@
   }
 
   $data = [];
+  if (in_array($function, ['json', 'pw-json', 'spyc', 'symf', 'radham'])){
+    echo "=== Running {$function} x {$times}".ENT;
+  }
   switch ($function) {
+    case 'symf':
+      for ($i=0; $i < $times; $i++) {
+          $file = readdatafile(YAML, $i);
+          $data[$i] = Symfony\Component\Yaml\Yaml::parse($file);
+      }
+      break;
+    case 'radham':
+      for ($i=0; $i < $times; $i++) {
+          $file = readdatafile(YAML, $i);
+          $data[$i] = RadHam\Yaml::parse($file);
+      }
+      echo 'count: '.count($data).ENT.'test item: '.$data[0]['longarr'][2]['item'].ENT;
+      break;
+    case 'spyc':
+      for ($i=0; $i < $times; $i++) {
+          $file = readdatafile(YAML, $i);
+          $data[$i] = Spyc::YAMLLoadString($file);
+      }
+      echo 'count: '.count($data).ENT.'test item: '.$data[0]['longarr'][2]['item'].ENT;
+      break;
     case 'pw-json':
       for ($i=0; $i < $times; $i++) {
           $file = readdatafile(JSON, $i);
