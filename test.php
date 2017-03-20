@@ -39,13 +39,14 @@
     return file_get_contents(datafile($fmt, $i));
   }
 
+  $data = [];
   switch ($function) {
     case 'json':
       for ($i=0; $i < $times; $i++) {
           $file = readdatafile(JSON, $i);
-          $data = json_decode($file);
+          $data[$i] = json_decode($file);
       }
-      var_dump($data);
+      echo 'count: '.count($data).ENT.'test item: '.$data[0]->longarr[2]->item.ENT;
       memory_used();
       break;
     case 'prepare':
