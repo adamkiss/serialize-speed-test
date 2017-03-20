@@ -10,6 +10,11 @@
       mkdir('./source-loops/');
       $json_source = readfile('./source/data.json');
       $yaml_source = readfile('./source/data.yaml');
+      for ($i=0; $i < 5000; $i++) {
+        file_put_contents("./source-loops/data-{$i}.json", $json_source);
+        file_put_contents("./source-loops/data-{$i}.yaml", $json_source);
+      }
+      echo "Prepared 5000 JSON and Yaml files.";
       break;
     default:
       echo <<<HELP
