@@ -73,7 +73,7 @@
       $yaml_source = file_get_contents('./source/data.yaml');
       for ($i=0; $i < 5000; $i++) {
         file_put_contents("./source-loops/data-{$i}.json", $json_source);
-        file_put_contents("./source-loops/data-{$i}.yaml", $json_source);
+        file_put_contents("./source-loops/data-{$i}.yaml", $yaml_source);
       }
       echo "Prepared 5000 JSON and Yaml files.".ENT;
       memory_used();
