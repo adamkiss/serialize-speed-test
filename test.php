@@ -1,6 +1,8 @@
 #!/usr/local/bin/php
 
 <?php
+  require './vendor/autoload.php';
+
   $function = $argv[1];
   $times = count($argv) > 2 ? (int) $argv[2] : null;
 
@@ -32,6 +34,12 @@
    }
  }
 
+  // source processwire@3.0.42:/wire/core/Functions.php
+  function wireDecodeJSON($json) {
+    if(empty($json) || $json == '[]') return array();
+    return json_decode($json, true);
+  }
+
   function datafile($fmt, $i){
     return "./source-loops/data-{$i}.{$fmt}";
   }
@@ -41,6 +49,15 @@
 
   $data = [];
   switch ($function) {
+    case 'pw-json':
+      // require './vendor/processwire/processwire/wire/core/Functions.php';
+      for ($i=0; $i < $times; $i++) {
+          $file = readdatafile(JSON, $i);
+          $data[$i] = wireDecodeJSON($file);
+      }
+      echo 'count: '.count($data).ENT.'test item: '.$data[0]['longarr'][2]['item'].ENT;
+      memory_used();
+      break;
     case 'json':
       for ($i=0; $i < $times; $i++) {
           $file = readdatafile(JSON, $i);
